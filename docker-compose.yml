@@ -1,0 +1,10 @@
+version: '3'
+services:
+  peer:
+    image: qnib/plain-etcd
+    ports:
+      - "2379:2379"
+      - "4001:4001"
+    environment:
+      - SERVICE_NAME={{.Service.Name}}
+      - TASK_SLOT={{.Task.Slot}}
