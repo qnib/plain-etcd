@@ -1,3 +1,3 @@
 #!/bin/bash
 
-etcdctl cluster-health
+etcdctl member list |wc -l

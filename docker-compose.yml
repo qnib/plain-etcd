@@ -1,10 +1,13 @@
-version: '3'
+version: "3"
 services:
-  peer:
+  etcd:
     image: qnib/plain-etcd
+    hostname: "{{.Service.Name}}.{{.Task.Slot}}.{{.Task.ID}}"
     ports:
-      - "2379:2379"
-      - "4001:4001"
+     - 8080:8080
     environment:
-      - SERVICE_NAME={{.Service.Name}}
-      - TASK_SLOT={{.Task.Slot}}
+       ALLOW_HEALTHCHECK_OVERWRITE: "true"
+       FISHERMAN_MIN_TASKS: "3"
+       ETCD_CLUSTER_TOKEN: "etcd-1"
+    deploy:
+      replicas: 3
