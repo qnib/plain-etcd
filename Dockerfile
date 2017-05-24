@@ -6,8 +6,9 @@ RUN apk add --no-cache ca-certificates openssl tar \
 VOLUME /data
 COPY opt/entry/*.env /opt/entry/
 COPY opt/qnib/etcd/bin/start.sh /opt/qnib/etcd/bin/
+COPY opt/healthcheck/10-etcd.sh /opt/healthcheck/
 EXPOSE 2379 4001
 ENV ETCD_DATA_DIR=/data/
 HEALTHCHECK --interval=3s --retries=15 --timeout=3s \
-  CMD etcdctl cluster-health
+  CMD /usr/local/bin/healthcheck.sh
 CMD ["/opt/qnib/etcd/bin/start.sh"]
