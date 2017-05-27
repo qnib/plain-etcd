@@ -18,5 +18,4 @@ COPY opt/qnib/etcd/bin/start.sh /opt/qnib/etcd/bin/
 COPY opt/healthchecks/10-etcd.sh /opt/healthchecks/
 HEALTHCHECK --interval=3s --retries=15 --timeout=3s \
   CMD /usr/local/bin/healthcheck.sh
-COPY ./go-fisherman /usr/local/bin/
 CMD ["/opt/qnib/etcd/bin/start.sh"]
