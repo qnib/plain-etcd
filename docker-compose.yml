@@ -8,9 +8,11 @@ services:
      - 4001:4001
     environment:
        SERVICE_NAME: "{{.Service.Name}}"
+       TASK_SLOT: "{{.Task.Slot}}"
        ALLOW_HEALTHCHECK_OVERWRITE: "true"
        FISHERMAN_MIN_TASKS: "3"
        FISHERMAN_OUT: "list"
        ETCD_CLUSTER_TOKEN: "etcd-1"
+       WAIT_TASK_SLOT: "4,5"
     deploy:
        replicas: 3
