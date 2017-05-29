@@ -1,18 +1,25 @@
 version: "3"
 services:
   peer:
-    image: qnib/plain-etcd
+    image: qnib/plain-etcd:local16
     hostname: "{{.Service.Name}}.{{.Task.Slot}}.{{.Task.ID}}"
     ports:
      - 2379:2379
      - 4001:4001
     environment:
        SERVICE_NAME: "{{.Service.Name}}"
+       SWARM_SERVICE_NAME: "{{.Service.Name}}"
        TASK_SLOT: "{{.Task.Slot}}"
+       SWARM_TASK_SLOT: "{{.Task.Slot}}"
        ALLOW_HEALTHCHECK_OVERWRITE: "true"
        FISHERMAN_MIN_TASKS: "3"
+       ETCD_MIN_TASKS: "3"
        FISHERMAN_OUT: "list"
        ETCD_CLUSTER_TOKEN: "etcd-1"
-       WAIT_TASK_SLOT: "4,5"
+       WAIT_TASK_SLOT: "4"
+    volumes:
+      - /Users/ckniep/src/github.com/qnib/init-plain/init-plain/:/init-plain/
+    entrypoint: /init-plain/usr/local/bin/entrypoint.sh
+    command: /opt/qnib/etcd/bin/start.sh
     deploy:
        replicas: 3

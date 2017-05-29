@@ -1,3 +1,4 @@
 #!/bin/bash
+set -e
 
-etcdctl member list |wc -l
+etcdctl member list
