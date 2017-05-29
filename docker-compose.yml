@@ -1,7 +1,7 @@
 version: "3"
 services:
   peer:
-    image: qnib/plain-etcd:local16
+    image: qnib/plain-etcd
     hostname: "{{.Service.Name}}.{{.Task.Slot}}.{{.Task.ID}}"
     ports:
      - 2379:2379
@@ -16,10 +16,5 @@ services:
        ETCD_MIN_TASKS: "3"
        FISHERMAN_OUT: "list"
        ETCD_CLUSTER_TOKEN: "etcd-1"
-       WAIT_TASK_SLOT: "4"
-    volumes:
-      - /Users/ckniep/src/github.com/qnib/init-plain/init-plain/:/init-plain/
-    entrypoint: /init-plain/usr/local/bin/entrypoint.sh
-    command: /opt/qnib/etcd/bin/start.sh
     deploy:
        replicas: 3
