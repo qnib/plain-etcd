@@ -1,17 +1,17 @@
-FROM qnib/alplain-init:edge
+FROM qnib/alplain-init
 
-ARG ETCD_VER=3.1.8
+ARG ETCD_VER=3.3.0-rc.0
 ENV ETCD_DATA_DIR=/data/ \
-    HEALTHCHECK_DIR=/opt/healthchecks/
+    HEALTHCHECK_DIR=/opt/healthchecks/ \
+    FISHERMAN_FORMAT="etcd" \
+    FISHERMAN_OUT="list"
 EXPOSE 2379 4001
 VOLUME /data
 
-RUN apk add --no-cache ca-certificates openssl tar \
- && wget -qO -  https://github.com/coreos/etcd/releases/download/v${ETCD_VER}/etcd-v${ETCD_VER}-linux-amd64.tar.gz |tar xfz - -C /bin/ --strip-components=1 \
- && apk --no-cache del --purge tar openssl
-
-ENV FISHERMAN_FORMAT="etcd" \
-    FISHERMAN_OUT="list"
+RUN apk add --no-cache ca-certificates openssl curl tar \
+ && wget -qO - https://github.com/coreos/etcd/releases/download/v${ETCD_VER}/etcd-v${ETCD_VER}-linux-amd64.tar.gz |tar xfz - -C /bin/ --strip-components=1 \
+ && wget -qO - https://github.com/sequenceiq/docker-alpine-dig/releases/download/v9.10.2/dig.tgz |tar -xzv -C /usr/local/bin/ \
+ && apk --no-cache del --purge tar openssl curl
 
 COPY opt/entry/*.env opt/entry/*.sh /opt/entry/
 COPY opt/qnib/etcd/bin/start.sh /opt/qnib/etcd/bin/

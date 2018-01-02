@@ -1,20 +1,20 @@
 version: "3"
 services:
   peer:
-    image: qnib/plain-etcd
+    image: qnib/plain-etcd:dirty13
     hostname: "{{.Service.Name}}.{{.Task.Slot}}.{{.Task.ID}}"
     ports:
      - 2379:2379
      - 4001:4001
     environment:
        SERVICE_NAME: "{{.Service.Name}}"
-       SWARM_SERVICE_NAME: "{{.Service.Name}}"
-       TASK_SLOT: "{{.Task.Slot}}"
        SWARM_TASK_SLOT: "{{.Task.Slot}}"
        ALLOW_HEALTHCHECK_OVERWRITE: "true"
-       FISHERMAN_MIN_TASKS: "3"
-       ETCD_MIN_TASKS: "3"
+       FISHERMAN_MIN_TASKS: "1"
+       ETCD_MIN_TASKS: "1"
        FISHERMAN_OUT: "list"
        ETCD_CLUSTER_TOKEN: "etcd-1"
+       #SKIP_ENTRYPOINTS: "true"
+    #command: wait.sh
     deploy:
-       replicas: 3
+       replicas: 1
