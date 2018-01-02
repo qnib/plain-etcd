@@ -19,3 +19,4 @@ COPY opt/healthchecks/10-etcd.sh /opt/healthchecks/
 HEALTHCHECK --interval=3s --retries=45 --timeout=3s \
   CMD /usr/local/bin/healthcheck.sh
 CMD ["/opt/qnib/etcd/bin/start.sh"]
+RUN echo 'etcdctl --endpoints "http://$(go-fisherman etcd_peer):2379" member list' >> /root/.bash_history

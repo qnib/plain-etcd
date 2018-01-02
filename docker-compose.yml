@@ -1,11 +1,13 @@
 version: "3"
 services:
   peer:
-    image: qnib/plain-etcd:dirty13
+    image: qnib/plain-etcd:dirty23
     hostname: "{{.Service.Name}}.{{.Task.Slot}}.{{.Task.ID}}"
     ports:
      - 2379:2379
      - 4001:4001
+    networks:
+      - etcd_default
     environment:
        SERVICE_NAME: "{{.Service.Name}}"
        SWARM_TASK_SLOT: "{{.Task.Slot}}"
@@ -18,3 +20,7 @@ services:
     #command: wait.sh
     deploy:
        replicas: 1
+
+networks:
+  etcd_default:
+    external: true
