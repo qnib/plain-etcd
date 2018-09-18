@@ -19,16 +19,14 @@ services:
      - 4001:4001
     environment:
        ETCD_CLUSTER_TOKEN: "etcd-1"
-       ETCD_CLUSTER: "false"
+       ETCD_LOCAL_CLUSTER: "true"
        ETCD_HOSTNAME: "etcd"
     command:
      - etcd
-     - --listen-client-urls
-     - "http://0.0.0.0:2379"
-     - --advertise-client-urls
-     - "http://127.0.0.1:2379"
-     - --name
-     - "default=http://127.0.0.1:2380,default=http://127.0.0.1:7001"
+     - --listen-client-urls=http://0.0.0.0:2379
+     - --advertise-client-urls=http://127.0.0.1:2379
+     - --initial-cluster=default=http://127.0.0.1:2380,default=http://127.0.0.1:7001
+     - --initial-advertise-peer-urls=http://127.0.0.1:2380,http://127.0.0.1:7001
     deploy:
        replicas: 1
 ---
