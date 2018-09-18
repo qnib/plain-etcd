@@ -1,0 +1,34 @@
+---
+version: 1.11.0-0
+name: etcd
+description: "Simple etcd stack"
+maintainers:
+- name: Christian Kniep
+  email: christian@qnib.org
+targets:
+  swarm: true
+  kubernetes: true
+---
+version: "3.6"
+services:
+  peer:
+    image: qnib/plain-etcd:3.3.9-0
+    hostname: "{{.Service.Name}}.{{.Task.Slot}}.{{.Task.ID}}"
+    ports:
+     - 2379:2379
+     - 4001:4001
+    environment:
+       ETCD_CLUSTER_TOKEN: "etcd-1"
+       ETCD_CLUSTER: "false"
+       ETCD_HOSTNAME: "etcd"
+    command:
+     - etcd
+     - --listen-client-urls
+     - "http://0.0.0.0:2379"
+     - --advertise-client-urls
+     - "http://127.0.0.1:2379"
+     - --name
+     - "default=http://127.0.0.1:2380,default=http://127.0.0.1:7001"
+    deploy:
+       replicas: 1
+---

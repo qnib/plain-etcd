@@ -1,6 +1,6 @@
-FROM qnib/alplain-init:edge
+FROM qnib/alplain-init:2018-08-06_10-50_df02a2f817d1
 
-ARG ETCD_VER=3.3.7
+ARG ETCD_VER=3.3.9
 ENV ETCD_DATA_DIR=/data/ \
     HEALTHCHECK_DIR=/opt/healthchecks/
 EXPOSE 2379 4001
